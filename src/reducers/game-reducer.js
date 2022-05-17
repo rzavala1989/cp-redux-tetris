@@ -8,8 +8,9 @@ import {
   MOVE_DOWN,
   GAME_OVER,
 } from '../actions';
+import { defaultState } from '../utils';
 
-const initialState = {};
+const initialState = defaultState();
 
 const gameReducer = (state = initialState, action) => {
   switch (action.type) {
