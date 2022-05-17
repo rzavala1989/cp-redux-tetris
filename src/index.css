@@ -31,7 +31,7 @@
   --tile-size: 20px for example will set size of the grid squares. */
   --cols: 10;
   --rows: 18;
-  --tile-size: 20px;
+  --tile-size: 25px;
   --border-width: 5px;
   --cols-next-block: 4;
 }
@@ -154,4 +154,46 @@ and 'b'. The '.' represents an empty cell on the grid. */
 
 .color-7 {
   background-color: var(--color-7);
+}
+
+/* CONTROLS 
+==============================================*/
+
+.controls {
+  grid-area: b;
+  display: flex;
+  flex-direction: row;
+}
+
+/* Control Button */
+.control-button {
+  --size: calc(var(--tile-size) * 2.5);
+  width: var(--size);
+  height: var(--size);
+  text-align: center;
+  display: block;
+  border-width: var(--border-width);
+  border-style: solid;
+  border-left-color: var(--border-left-color);
+  border-right-color: var(--border-right-color);
+  border-top-color: var(--border-top-color);
+  border-bottom-color: var(--border-bottom-color);
+}
+
+/* MODAL
+================================== */
+.modal {
+  position: absolute;
+  padding: var(--tile-size);
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: (var(--tile-size) * 10);
+  height: (var(--tile-size) * 10);
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+.modal.hidden {
+  display: none;
 }
