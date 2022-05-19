@@ -1,4 +1,4 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import reducers from './reducers';
 
@@ -9,7 +9,8 @@ import { Controls } from './components/Controls';
 import { Modal } from './components/Modal';
 import './App.css';
 
-const store = createStore(reducers);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware()));
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
         </header>
         <NextBlock />
         <GridBoard />
-        <ScoreBoard score={0} />
+        <ScoreBoard />
         <Controls />
         <Modal />
       </div>
