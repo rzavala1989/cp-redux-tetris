@@ -195,23 +195,72 @@ export const randomShape = () => {
   return random(1, shapes.length - 1);
 };
 
+// ROTATION = shapes[shape][rotation]
+// Returns the next rotation for a shape
+// rotation can't exceed the last index of the the rotations for the given shape.
+export const nextRotation = (shape, rotation) => {
+  return (rotation + 1) % shapes[shape].length;
+};
+
+// moving blocks
+export const canMoveTo = (shape, grid, x, y, rotation) => {
+  const currentShape = shapes[shape][rotation];
+  for (let row = 0; row < currentShape.length; row++)
+    for (let col = 0; col < currentShape[row].length; col++) {
+      if (currentShape[row][col] !== 0) {
+        // TODO x offset on grid - how far can i currently move left/right?
+        const proposedX = col + x;
+        // TODO y offset on grid - how far can i move down?
+        const proposedY = row + y;
+        if (proposedY < 0) {
+          continue;
+        }
+        // Get the row on the grid
+        const possibleRow = grid[proposedY];
+        // Check if row exists
+        if (possibleRow) {
+          // Check if this column in the row is undefined, if it's off the edges, 0, and empty
+          if (
+            possibleRow[proposedX] === undefined ||
+            possibleRow[proposedX] !== 0
+          ) {
+            return false;
+          }
+        } else {
+          return false;
+        }
+      }
+    }
+  return true;
+};
+
+//add current shape to grid
+export const addBlockToGrid = (shape, grid, x, y, rotation) => {
+  //get the block array
+  const block = shapes[shape][rotation];
+  //make a copy of the grid(in its current state)
+  const newGrid = [...grid];
+  //map block onto the grid
+  for (let row = 0; row < block.length; row++) {
+    for (let col = 0; col < block[row].length; col++) {
+      if (block[row][col]) {
+        newGrid[row + y][col + x] = shape;
+      }
+    }
+  }
+  return newGrid;
+};
+
+// undefined or not 0 and it's occupied we can't move here.
+
 //Generate default state of game
 export const defaultState = () => {
-  //1. create empty grid
-  //2. get random shape
-  //3. set rotation of the shape to 0 (default orientation
-  //4. set position (x-axis) to default position
-  //5. set index of NEXT SHAPE to a new random shape
-  //6. is game running or is it paused?
-  //7. initial score is 0
-  //8. set default speed of blocks
-  //9 is game over or not?
   return {
     grid: gridDefault(),
     shape: randomShape(),
     rotation: 0,
     x: 5,
-    y: -4,
+    y: -2,
     nextShape: randomShape(),
     isRunning: true,
     score: 0,
